@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sawit Simulator is a cozy, Indonesia-inspired palm oil plantation management game."
+    />
+    <meta name="theme-color" content="#183a2b" />
+    <title>Sawit Simulator — Grow with purpose</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="preload" href="assets/sawit-valley-hero.png" as="image" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="start-screen" id="startScreen" role="dialog" aria-modal="true" aria-labelledby="gameTitle">
+      <div class="start-shade"></div>
+      <section class="start-card">
+        <div class="brand-mark brand-mark--large" aria-hidden="true"><span></span><i></i></div>
+        <p class="eyebrow">A cozy management game</p>
+        <h1 id="gameTitle">Sawit<br /><em>Simulator</em></h1>
+        <p class="start-copy">
+          Build a small kebun into a thriving, responsible palm oil business in a fictional Indonesian valley.
+        </p>
+        <div class="start-actions">
+          <button class="button button--sun button--large" id="newGameBtn">Start new kebun <span>→</span></button>
+          <button class="button button--ghost-light button--large is-hidden" id="continueBtn">Continue saved game</button>
+        </div>
+        <p class="start-note">Free to play · Saves in your browser · Works offline</p>
+      </section>
+      <div class="start-credit">Original game &amp; artwork · Made for the web</div>
+    </div>
+
+    <div class="app-shell is-hidden" id="appShell">
+      <aside class="sidebar" id="sidebar">
+        <div class="side-brand">
+          <div class="brand-mark" aria-hidden="true"><span></span><i></i></div>
+          <div><b>Sawit</b><small>SIMULATOR</small></div>
+        </div>
+
+        <nav class="main-nav" aria-label="Game sections">
+          <button class="nav-item is-active" data-tab="overview"><span>⌂</span><b>Overview</b></button>
+          <button class="nav-item" data-tab="plantation"><span>♣</span><b>Plantation</b><i id="farmBadge"></i></button>
+          <button class="nav-item" data-tab="market"><span>◫</span><b>Mill &amp; Market</b></button>
+          <button class="nav-item" data-tab="lands"><span>◇</span><b>Land Office</b></button>
+          <div class="nav-label">Explore</div>
+          <button class="nav-item" data-tab="jobs"><span>✦</span><b>Side Jobs</b><i id="jobBadge"></i></button>
+          <button class="nav-item" data-tab="quests"><span>✓</span><b>Quests</b><i id="questBadge"></i></button>
+          <button class="nav-item" data-tab="ledger"><span>≡</span><b>Ledger</b></button>
+        </nav>
+
+        <div class="side-footer">
+          <div class="save-state"><span class="save-dot"></span><span id="saveState">Saved locally</span></div>
+          <button class="icon-button" id="settingsBtn" aria-label="Open settings">⚙</button>
+        </div>
+      </aside>
+
+      <div class="page-area">
+        <header class="topbar">
+          <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+          <div class="day-summary">
+            <span class="weather-icon" id="weatherIcon">☀</span>
+            <div><b id="dayLabel">Day 1 · 07:00</b><small id="weatherLabel">Cerah · +10% growth</small></div>
+          </div>
+          <div class="top-resources">
+            <div class="resource-pill"><span class="coin-dot">Rp</span><div><small>Balance</small><b id="moneyTop">Rp0</b></div></div>
+            <div class="resource-pill hide-small"><span class="rep-dot">★</span><div><small>Reputation</small><b id="repTop">0</b></div></div>
+            <button class="button button--dark" id="endDayBtn">End day <span>→</span></button>
+          </div>
+        </header>
+
+        <main id="mainContent">
+          <section class="tab-page is-active" id="overviewPage" data-page="overview">
+            <div class="page-heading">
+              <div><p class="eyebrow">Your business today</p><h2>Selamat pagi, <span id="playerName">Raka</span>.</h2><p id="overviewSubtitle">The palms are waking up. Let’s make today count.</p></div>
+              <button class="button button--cream" data-go="plantation">View plantation <span>↗</span></button>
+            </div>
+
+            <div class="overview-grid">
+              <article class="hero-panel">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                  <p class="eyebrow eyebrow--light">Kebun Sungai Hijau</p>
+                  <h3 id="heroHeadline">Your first harvest<br />starts here.</h3>
+                  <p id="heroCopy">Plant your open plots, care for the soil, and build a business the valley can be proud of.</p>
+                  <button class="button button--sun" data-go="plantation">Go to the fields <span>→</span></button>
+                </div>
+                <div class="hero-stat"><span>Estate progress</span><b id="estateLevel">Level 1 · Smallholder</b><div class="progress"><i id="estateProgress"></i></div></div>
+              </article>
+
+              <article class="market-card card">
+                <div class="card-top"><div><p class="eyebrow">Today’s market</p><h3>CPO price</h3></div><span class="trend-pill" id="marketTrend">▲ 2.4%</span></div>
+                <div class="price-row"><strong id="marketPrice">Rp0</strong><span>/ ton</span></div>
+                <div class="sparkline" id="sparkline" aria-label="Seven day market price chart"></div>
+                <p class="market-tip" id="marketTip">Prices are favorable today.</p>
+                <button class="text-button" data-go="market">Open market <span>→</span></button>
+              </article>
+            </div>
+
+            <div class="section-title"><div><p class="eyebrow">At a glance</p><h3>Your operation</h3></div><span id="plotsSummary">0 of 0 plots planted</span></div>
+            <div class="stat-grid" id="operationStats"></div>
+
+            <div class="lower-grid">
+              <article class="card task-card">
+                <div class="card-top"><div><p class="eyebrow">Next steps</p><h3>Today’s focus</h3></div><span class="tiny-label" id="focusCount">0 left</span></div>
+                <div id="focusList" class="focus-list"></div>
+              </article>
+              <article class="card steward-card">
+                <div class="card-top"><div><p class="eyebrow">Valley trust</p><h3>Stewardship</h3></div><b class="big-score" id="stewardScore">0</b></div>
+                <div class="meter-row"><span>Soil</span><div><i id="soilMeter"></i></div><b id="soilScore">0</b></div>
+                <div class="meter-row"><span>Water</span><div><i id="waterMeter"></i></div><b id="waterScore">0</b></div>
+                <div class="meter-row"><span>Community</span><div><i id="communityMeter"></i></div><b id="communityScore">0</b></div>
+                <p>Healthy land improves yields and unlocks better partnerships.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="tab-page" id="plantationPage" data-page="plantation">
+            <div class="page-heading">
+              <div><p class="eyebrow">Kebun operations</p><h2>Your plantation</h2><p>Select a plot to plant, care for, or harvest it.</p></div>
+              <div class="heading-actions"><button class="button button--cream" id="buySeedBtn">Buy seedling · <span id="seedPriceLabel">Rp0</span></button><button class="button button--dark" id="plantAllBtn">Plant open plots</button></div>
+            </div>
+            <div class="farm-layout">
+              <article class="field-card card">
+                <div class="field-toolbar"><div class="legend"><span><i class="legend-empty"></i>Open</span><span><i class="legend-growing"></i>Growing</span><span><i class="legend-ready"></i>Ready</span></div><b id="fieldWeather">☀ Perfect growing weather</b></div>
+                <div class="plot-grid" id="plotGrid"></div>
+              </article>
+              <aside class="farm-aside">
+                <article class="card inventory-card"><p class="eyebrow">Storehouse</p><h3>Inventory</h3><div id="farmInventory"></div></article>
+                <article class="card care-card"><p class="eyebrow">Field action</p><h3>Care for the soil</h3><p>Compost all growing plots. Better soil means a stronger harvest.</p><button class="button button--green button--wide" id="compostBtn">Apply compost · Rp120k</button></article>
+              </aside>
+            </div>
+          </section>
+
+          <section class="tab-page" id="marketPage" data-page="market">
+            <div class="page-heading">
+              <div><p class="eyebrow">From fruit to product</p><h2>Mill &amp; market</h2><p>Process fresh fruit bunches into crude palm oil, then choose when to sell.</p></div>
+              <div class="live-price"><span>LIVE CPO</span><b id="marketPriceHeader">Rp0 / ton</b><i id="marketTrendHeader">▲ 0%</i></div>
+            </div>
+            <div class="production-flow">
+              <article class="flow-card card"><span class="flow-number">01</span><div class="flow-icon fruit-icon">●</div><p class="eyebrow">Raw harvest</p><h3>Fresh fruit bunches</h3><strong id="ffbStock">0.00 t</strong><p>Harvested from mature plots. Process quickly for the best yield.</p></article>
+              <span class="flow-arrow">→</span>
+              <article class="flow-card card flow-card--mill"><span class="flow-number">02</span><div class="flow-icon">♨</div><p class="eyebrow">Processing</p><h3>Community mill</h3><strong id="millStatus">Ready</strong><p id="millCopy">4.2 t FFB → 1.0 t CPO · Rp180k processing</p><button class="button button--sun button--wide" id="processBtn">Process a batch</button></article>
+              <span class="flow-arrow">→</span>
+              <article class="flow-card card"><span class="flow-number">03</span><div class="flow-icon oil-icon">◆</div><p class="eyebrow">Finished stock</p><h3>Crude palm oil</h3><strong id="cpoStock">0.00 t</strong><p>Stored safely and ready to sell at the current market price.</p></article>
+            </div>
+            <div class="market-layout">
+              <article class="card sell-card"><div><p class="eyebrow">Trading desk</p><h3>Sell CPO</h3><p>Choose an amount. Revenue is based on today’s changing market price.</p></div><div class="sell-controls"><div class="range-label"><span>Amount</span><b id="sellAmountLabel">0.00 t</b></div><input type="range" id="sellRange" min="0" max="0" step="0.01" value="0" /><div class="range-ends"><span>0 t</span><span id="sellMaxLabel">0 t available</span></div><div class="sale-total"><span>Estimated revenue</span><strong id="saleEstimate">Rp0</strong></div><button class="button button--dark button--wide" id="sellBtn">Sell at today’s price</button></div></article>
+              <article class="card history-card"><div class="card-top"><div><p class="eyebrow">Market pulse</p><h3>7-day price</h3></div><span class="tiny-label">per ton</span></div><div class="large-chart" id="largeChart"></div><div class="chart-labels"><span>7d ago</span><span>Today</span></div></article>
+            </div>
+          </section>
+
+          <section class="tab-page" id="landsPage" data-page="lands">
+            <div class="page-heading"><div><p class="eyebrow">Grow your estate</p><h2>Land office</h2><p>Expand through legal leases and community partnerships. Every parcel has trade-offs.</p></div><div class="permit-pill"><span>Estate capacity</span><b id="capacityLabel">0 plots</b></div></div>
+            <div class="land-map card">
+              <div class="map-copy"><p class="eyebrow eyebrow--light">Sungai Hijau district</p><h3>Choose where<br />you grow next.</h3><p>Trust and stewardship unlock the valley’s best opportunities.</p></div>
+              <div class="map-pins" id="mapPins"></div>
+            </div>
+            <div class="section-title"><div><p class="eyebrow">Available parcels</p><h3>Expansion opportunities</h3></div><span>All agreements are permanent</span></div>
+            <div class="land-grid" id="landGrid"></div>
+          </section>
+
+          <section class="tab-page" id="jobsPage" data-page="jobs">
+            <div class="page-heading"><div><p class="eyebrow">Earn extra rupiah</p><h2>Side jobs</h2><p>Take a quick job while your palms grow. Each job can be done once per day.</p></div><div class="energy-pill"><span>Today’s jobs</span><b id="jobsRemaining">3 available</b></div></div>
+            <div class="job-grid" id="jobGrid"></div>
+            <article class="card job-stage is-hidden" id="jobStage" aria-live="polite"></article>
+          </section>
+
+          <section class="tab-page" id="questsPage" data-page="quests">
+            <div class="page-heading"><div><p class="eyebrow">The valley’s stories</p><h2>Quests &amp; milestones</h2><p>Complete goals, meet your neighbors, and shape your reputation.</p></div><div class="quest-total"><strong id="questCompleteCount">0</strong><span>quests<br />complete</span></div></div>
+            <div class="quest-layout"><div><div class="filter-row"><button class="filter is-active" data-filter="active">Active</button><button class="filter" data-filter="complete">Completed</button><button class="filter" data-filter="all">All</button></div><div class="quest-list" id="questList"></div></div><aside class="card milestone-card"><p class="eyebrow">Estate journey</p><h3>Milestones</h3><div id="milestoneList"></div></aside></div>
+          </section>
+
+          <section class="tab-page" id="ledgerPage" data-page="ledger">
+            <div class="page-heading"><div><p class="eyebrow">Know your numbers</p><h2>Business ledger</h2><p>Track every rupiah in and out of your estate.</p></div><button class="button button--cream" id="exportLedgerBtn">Export CSV ↓</button></div>
+            <div class="ledger-stats" id="ledgerStats"></div>
+            <article class="card ledger-card"><div class="ledger-head"><span>Description</span><span>Day</span><span>Type</span><span>Amount</span></div><div id="ledgerRows"></div></article>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="modal-layer is-hidden" id="modalLayer" role="presentation">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+    <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

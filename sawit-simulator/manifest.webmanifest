@@ -1,0 +1,17 @@
+{
+  "name": "Sawit Simulator",
+  "short_name": "Sawit Sim",
+  "description": "A cozy, Indonesia-inspired palm oil plantation management game.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f0e6",
+  "theme_color": "#183a2b",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
